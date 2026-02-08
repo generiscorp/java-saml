@@ -25,13 +25,13 @@
 		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<commons-codec.version>1.21.0</commons-codec.version>
 		<!-- https://mvnrepository.com/artifact/com.azure/azure-security-keyvault-keys -->
-		<azure-keyvault.version>4.10.2</azure-keyvault.version>
+		<azure-keyvault.version>4.10.5</azure-keyvault.version>
 		<!-- https://mvnrepository.com/artifact/com.azure/azure-identity -->
 		<azure-identity.version>1.18.2</azure-identity.version>
 
 		<!-- Test dependency versions -->
 		<!-- https://mvnrepository.com/artifact/org.junit/junit-bom -->
-		<junit.version>5.11.4</junit.version>
+		<junit.version>6.0.2</junit.version>
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 		<mockito.version>5.21.0</mockito.version>
 		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
