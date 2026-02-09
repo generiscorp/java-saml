@@ -1,66 +1,120 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.onelogin</groupId>
+	<groupId>com.generiscorp</groupId>
 	<artifactId>java-saml-toolkit</artifactId>
-	<version>2.9.1-SNAPSHOT</version>
+	<version>3.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>java-saml Toolkit Project</name>
-	<description>A Java SAML toolkit</description>
-	<url>https://github.com/saml-toolkit/java-saml</url>
+	<description>A Java SAML toolkit - maintained fork of SAML-Toolkits/java-saml</description>
+	<url>https://github.com/generiscorp/java-saml</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-                <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
-		<slf4jVersion>1.7.36</slf4jVersion>
-		<junitVersion>4.13.2</junitVersion>
-		<logbackVersion>1.2.12</logbackVersion>
-		<apacheCommonsLangVersion>3.13.0</apacheCommonsLangVersion>
+		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+
+		<!-- Library versions -->
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<slf4j.version>2.0.17</slf4j.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<log4j2.version>2.25.3</log4j2.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<commons-lang3.version>3.20.0</commons-lang3.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.santuario/xmlsec -->
+		<xmlsec.version>4.0.4</xmlsec.version>
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<commons-codec.version>1.21.0</commons-codec.version>
+		<!-- https://mvnrepository.com/artifact/com.azure/azure-security-keyvault-keys -->
+		<azure-keyvault.version>4.10.5</azure-keyvault.version>
+		<!-- https://mvnrepository.com/artifact/com.azure/azure-identity -->
+		<azure-identity.version>1.18.2</azure-identity.version>
+
+		<!-- Test dependency versions -->
+		<!-- https://mvnrepository.com/artifact/org.junit/junit-bom -->
+		<junit.version>6.0.2</junit.version>
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+		<mockito.version>5.21.0</mockito.version>
+		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
+		<hamcrest.version>3.0</hamcrest.version>
+
+		<!-- Plugin versions -->
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+		<maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin -->
+		<maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+		<maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
+		<maven-release-plugin.version>3.3.1</maven-release-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+		<maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+		<maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+		<jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+		<!-- https://mvnrepository.com/artifact/org.owasp/dependency-check-maven -->
+		<dependency-check-maven.version>12.2.0</dependency-check-maven.version>
+		<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/versions-maven-plugin -->
+		<versions-maven-plugin.version>2.20.1</versions-maven-plugin.version>
 	</properties>
 
 	<modules>
 		<module>core</module>
 		<module>toolkit</module>
-		<module>samples</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- for test -->
+			<!-- JUnit 5 BOM -->
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- for test (JUnit 4 - existing tests; vintage engine bridges to JUnit 5 platform) -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>${junitVersion}</version>
+				<version>4.13.2</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>3.12.4</version>
+				<version>${mockito.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-core</artifactId>
-				<version>2.2</version>
+				<artifactId>hamcrest</artifactId>
+				<version>${hamcrest.version}</version>
 				<scope>test</scope>
 			</dependency>
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-library</artifactId>
-				<version>2.2</version>
-				<scope>test</scope>
-			</dependency>
+
 			<!-- for log -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>${slf4jVersion}</version>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<!-- Log4j2 as SLF4J backend for tests -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${log4j2.version}</version>
+				<optional>true</optional>
 			</dependency>
 			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logbackVersion}</version>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j2-impl</artifactId>
+				<version>${log4j2.version}</version>
 				<optional>true</optional>
 			</dependency>
 		</dependencies>
@@ -71,7 +125,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>${maven-enforcer-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>enforce-versions</id>
@@ -82,10 +136,9 @@
 							<fail>true</fail>
 							<rules>
 								<requireMavenVersion>
-									<version>3.2.5</version>
+									<version>3.6.3</version>
 								</requireMavenVersion>
 								<requireJavaVersion>
-									<!-- enforce =1.8 so that we compile against the right JRE -->
 									<version>[1.8,)</version>
 								</requireJavaVersion>
 							</rules>
@@ -96,7 +149,7 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>8.4.0</version>
+				<version>${dependency-check-maven.version}</version>
 				<configuration>
 					<failBuildOnCVSS>7</failBuildOnCVSS>
 					<suppressionFiles>
@@ -112,12 +165,43 @@
 					 </execution>
 				</executions>
 			</plugin>
+			<!-- Plugin to check for dependency updates -->
+			<!-- Run: mvn versions:display-dependency-updates -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>${versions-maven-plugin.version}</version>
+				<configuration>
+					<processDependencyManagement>false</processDependencyManagement>
+					<ruleSet>
+						<ignoreVersions>
+							<ignoreVersion>
+								<type>regex</type>
+								<version>(.+-SNAPSHOT|.+-M\d)</version>
+							</ignoreVersion>
+							<ignoreVersion>
+								<type>regex</type>
+								<version>.+-(alpha|beta|rc|RC).*</version>
+							</ignoreVersion>
+						</ignoreVersions>
+					</ruleSet>
+				</configuration>
+				<executions>
+					<execution>
+						<id>check-updates</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>display-dependency-updates</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.1</version>
+					<version>${maven-compiler-plugin.version}</version>
 					<configuration>
 						<source>1.8</source>
 						<target>1.8</target>
@@ -125,8 +209,23 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven-jar-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.3</version>
+					<version>${maven-release-plugin.version}</version>
 					<configuration>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 						<useReleaseProfile>false</useReleaseProfile>
@@ -140,23 +239,10 @@
 		</pluginManagement>
 	</build>
 
-	<distributionManagement>
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Nexus Release Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-		<snapshotRepository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshots</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<scm>
-		<connection>scm:git:git@github.com:saml-toolkit/java-saml.git</connection>
-		<developerConnection>scm:git:git@github.com:saml-toolkit/java-saml.git</developerConnection>
-		<url>https://github.com/saml-toolkit/java-saml</url>
+		<connection>scm:git:git@github.com:generiscorp/java-saml.git</connection>
+		<developerConnection>scm:git:git@github.com:generiscorp/java-saml.git</developerConnection>
+		<url>https://github.com/generiscorp/java-saml</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -174,6 +260,11 @@
 			<url>https://github.com/pitbulk</url>
 			<organization>SAML Toolkit</organization>
 		</developer>
+		<developer>
+			<name>Generis Enterprise Technology</name>
+			<url>https://github.com/generiscorp</url>
+			<organization>Generis</organization>
+		</developer>
 	</developers>
 
 	<profiles>
@@ -184,7 +275,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.2.1</version>
+						<version>${maven-source-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -197,7 +288,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.3.1</version>
+						<version>${maven-javadoc-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
@@ -213,7 +304,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>${maven-gpg-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>

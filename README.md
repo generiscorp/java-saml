@@ -1,42 +1,31 @@
 # SAML Java Toolkit <!-- omit in toc -->
 
-[![Build Status](https://travis-ci.org/onelogin/java-saml.svg?branch=master)](https://travis-ci.org/onelogin/java-saml) [![Coverage Status](https://coveralls.io/repos/github/onelogin/java-saml/badge.svg?branch=master)](https://coveralls.io/github/onelogin/java-saml?branch=master)
+> **Maintained fork** of [SAML-Toolkits/java-saml](https://github.com/SAML-Toolkits/java-saml) by [Generis](https://github.com/generiscorp).
+>
+> The upstream project is [no longer actively maintained](https://github.com/SAML-Toolkits/java-saml/issues). This fork provides:
+> - **Up-to-date dependencies** with security patches (xmlsec 4.0.4, SLF4J 2.0.x, etc.)
+> - **Log4j2** as the logging backend (replacing logback)
+> - **Dependency update reporting** via versions-maven-plugin on every build
+> - **OWASP dependency-check** integration for CVE scanning
+> - Modernized build tooling (Maven plugin upgrades, JUnit 5 platform)
+>
+> The Java package names remain `com.onelogin.saml2.*` for full source-level compatibility with the upstream API. Only the Maven `groupId` has changed to `com.generiscorp`.
 
 Add SAML support to your Java applications using this library.
 
-2.8.0 uses xmlsec 2.2.3 which fixes [CVE-2021-40690](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHESANTUARIO-1655558)
-
-Version >= 2.5.0 compatible with java8 / java9. Not compatible with java7
-
-2.5.0 sets the 'strict' setting parameter to true.
-
-2.5.0 uses xmlsec 2.1.4 which fixes [CVE-2019-12400](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHESANTUARIO-460281)
-
-Version 2.0.0 - 2.4.0, compatible with java7 / java8.
-
-We [introduced some incompatibilities](https://github.com/onelogin/java-saml/issues/90), that could be fixed and make it compatible with java6.
-
-Version 1.1.2 is considered to be deprecated. If you have used it, we strongly recommend that you migrate to the new version.
-We rebuilt the toolkit on 2.0.0, so code/settings that you had been using in the previous version will no longer be compatible.
+Supports Java 8 and above.
 
 - [Why add SAML support to my software?](#why-add-saml-support-to-my-software)
 - [General description](#general-description)
 - [Security warning](#security-warning)
 - [Installation](#installation)
-  - [Hosting](#hosting)
-    - [Github](#github)
-    - [Maven](#maven)
+  - [Maven](#maven)
   - [Dependencies](#dependencies)
-- [Working with the github repository code and Eclipse.](#working-with-the-github-repository-code-and-eclipse)
-  - [Get the toolkit.](#get-the-toolkit)
-  - [Adding java-saml toolkit components as a project](#adding-java-saml-toolkit-components-as-a-project)
-  - [Adding the java-saml-tookit-jspsample as a project](#adding-the-java-saml-tookit-jspsample-as-a-project)
-  - [Deploy the java-saml-tookit-jspsample](#deploy-the-java-saml-tookit-jspsample)
+- [Migrating from upstream](#migrating-from-upstream)
 - [Getting started](#getting-started)
   - [Learning the toolkit](#learning-the-toolkit)
-    - [core (com.onelogin:java-saml-core)](#core-comoneloginjava-saml-core)
-    - [toolkit (com.onelogin:java-saml)](#toolkit-comoneloginjava-saml)
-    - [samples (com.onelogin:java-saml-tookit-samples)](#samples-comoneloginjava-saml-tookit-samples)
+    - [core (com.generiscorp:java-saml-core)](#core-comgeneriscorpjava-saml-core)
+    - [toolkit (com.generiscorp:java-saml)](#toolkit-comgeneriscorpjava-saml)
   - [How it works](#how-it-works)
     - [Javadocs](#javadocs)
     - [Settings](#settings)
@@ -54,10 +43,6 @@ We rebuilt the toolkit on 2.0.0, so code/settings that you had been using in the
   - [Working behind load balancer](#working-behind-load-balancer)
   - [IdP with multiple certificates](#idp-with-multiple-certificates)
   - [Replay attacks](#replay-attacks)
-- [Demo included in the toolkit](#demo-included-in-the-toolkit)
-    - [SP setup](#sp-setup)
-    - [IdP setup](#idp-setup)
-    - [How it works](#how-it-works-1)
 
 ## Why add SAML support to my software?
 
@@ -73,8 +58,8 @@ since 2002, but lately it has become popular due to its advantages as follows:
    and most security conscious enterprises in the world rely on.
  * **Speed** - SAML is fast. One browser redirect is all it takes to securely
    sign a user into an application.
- * **Phishing Prevention** - If you don’t have a password for an app, you
-   can’t be tricked into entering it on a fake login page.
+ * **Phishing Prevention** - If you don't have a password for an app, you
+   can't be tricked into entering it on a fake login page.
  * **IT Friendly** - SAML simplifies life for IT because it centralizes
    authentication, provides greater visibility and makes directory
    integration easier.
@@ -104,7 +89,7 @@ Key features:
    the final app; the toolkit delegates session in the final app.
  * **Easy to use** - Programmer will be allowed to code high-level and
    low-level programming; 2 easy-to-use APIs are available.
- * **Tested** - Thoroughly tested.
+ * **Tested** - Thoroughly tested (460+ unit tests).
 
 ## Security warning
 
@@ -120,114 +105,93 @@ But there are other scenarios, like a SAAS app where the administrator of the ap
 
 
 ## Installation
-### Hosting
-#### Github
-The toolkit is hosted on github. You can download it from:
-* Latest release: https://github.com/onelogin/java-saml/releases/latest
-* Master repo: https://github.com/onelogin/java-saml/tree/master
 
-#### Maven
-The toolkit is hosted at [Sonatype OSSRH (OSS Repository Hosting)](http://central.sonatype.org/pages/ossrh-guide.html) that is synced to the Central Repository.
+### Maven
 
 Install it as a maven dependency:
 ```xml
-  <dependency>
-      <groupId>com.onelogin</groupId>
-      <artifactId>java-saml</artifactId>
-      <version>2.9.0</version>
-  </dependency>
+<dependency>
+    <groupId>com.generiscorp</groupId>
+    <artifactId>java-saml</artifactId>
+    <version>3.0.3-SNAPSHOT</version>
+</dependency>
 ```
 
-
 ### Dependencies
-java-saml (com.onelogin:java-saml-toolkit) has the following dependencies:
+
+java-saml (`com.generiscorp:java-saml-toolkit`) has the following dependencies:
 
 *core:*
-* org.apache.santuario:xmlsec
-* joda-time:joda-time
-* org.apache.commons:commons-lang3
-* commons-codec:commons-codec
+* org.apache.santuario:xmlsec 4.0.4
+* org.apache.commons:commons-lang3 3.20.0
+* commons-codec:commons-codec 1.21.0
+* com.azure:azure-security-keyvault-keys (optional)
+* com.azure:azure-identity (optional)
 * testing:
-  * org.hamcrest:hamcrest-core and org.hamcrest:hamcrest-library
-  * junit:junit
-  * org.mockito:mockito-core
+  * org.hamcrest:hamcrest 3.0
+  * JUnit 5 platform with JUnit 4 vintage engine
+  * org.mockito:mockito-core 5.21.0
 * logging:
-  * org.slf4j:slf4j-api
-  * ch.qos.logback:logback-classic
-* For CI:
-  * org.jacoco:jacoco-maven-plugin
+  * org.slf4j:slf4j-api 2.0.17
+  * org.apache.logging.log4j:log4j-core 2.25.3 (optional)
+  * org.apache.logging.log4j:log4j-slf4j2-impl 2.25.3 (optional)
 
-also the [Java Cryptography Extension (JCE)](https://en.wikipedia.org/wiki/Java_Cryptography_Extension) is required. If you don't have it, download the version of [jce-8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html), unzip it, and drop its content at
-*${java.home}/jre/lib/security/*. JDK 9 and later offer the stronger cryptographic algorithms by default.
+Also the [Java Cryptography Extension (JCE)](https://en.wikipedia.org/wiki/Java_Cryptography_Extension) is required. JDK 9 and later offer the stronger cryptographic algorithms by default.
 
 *toolkit:*
-* com.onelogin:java-saml-core
-* javax.servlet:servlet-api
-
-*maven:*
-* org.apache.maven.plugins:maven-jar-plugin
-* org.apache.maven.plugins:maven-surefire-plugin
-* org.apache.maven.plugins:maven-enforcer-plugin
+* com.generiscorp:java-saml-core
+* javax.servlet:javax.servlet-api 4.0.1
 
 For more info, open and read the different pom.xml files:
-[core/pom.xml](https://github.com/onelogin/java-saml/blob/v2.5.0/core/pom.xml), [toolkit/pom.xml](https://github.com/onelogin/java-saml/blob/v2.5.0/toolkit/pom.xml)
+[core/pom.xml](core/pom.xml), [toolkit/pom.xml](toolkit/pom.xml)
 
-## Working with the github repository code and Eclipse.
-### Get the toolkit.
-The toolkit is hosted on github. You can download it from:
-* Latest release: https://github.com/onelogin/java-saml/releases/latest
-* Master repo: https://github.com/onelogin/java-saml/tree/master
 
-### Adding java-saml toolkit components as a project
-1. Open Eclipse and set a workspace
-2. File > Import > Maven : Existing Maven Projects > Select the path where the core folder of the Java Toolkit is  *<path>/java-saml/core*, resolve the Workspace project and select the pom.xml
-3. File > Import > Maven : Existing Maven Projects > Select the path where the toolkit folder of the Java Toolkit is  *<path>/java-saml/toolkit*, resolve the Workspace project and select the pom.xml
+## Migrating from upstream
 
-### Adding the java-saml-tookit-jspsample as a project
-1. File > Import > Maven : Existing Maven Projects > Select the path where the core folder of the Java Toolkit is  *<path>/java-saml/samples/java-saml-tookit-jspsample*, resolve the Workspace project and select the pom.xml
+If you are migrating from the original `com.onelogin:java-saml`, the only change needed in your code is the Maven dependency coordinates:
 
-### Deploy the java-saml-tookit-jspsample
+```xml
+<!-- Before (upstream, unmaintained) -->
+<dependency>
+    <groupId>com.onelogin</groupId>
+    <artifactId>java-saml</artifactId>
+    <version>2.9.0</version>
+</dependency>
 
-At the Package Explorer, select the jsp-sample project, 2nd bottom of the mouse and Run As > Run Server
-Select a [Tomcat Server](http://crunchify.com/step-by-step-guide-to-setup-and-install-apache-tomcat-server-in-eclipse-development-environment-ide/) in order to deploy the server.
+<!-- After (this fork) -->
+<dependency>
+    <groupId>com.generiscorp</groupId>
+    <artifactId>java-saml</artifactId>
+    <version>3.0.3-SNAPSHOT</version>
+</dependency>
+```
+
+**No Java source code changes are required.** All Java packages remain `com.onelogin.saml2.*`, so your `import` statements and API usage stay exactly the same.
+
 
 ## Getting started
 ### Learning the toolkit
 
-Java SAML Toolkit contains different folders (core, toolkit, samples) and some files.
+Java SAML Toolkit contains two modules (core, toolkit).
 
 Let's start describing them:
 
-#### core (com.onelogin:java-saml-core) ####
+#### core (com.generiscorp:java-saml-core) ####
 This folder contains a maven project with the heart of java-saml, classes and methods to handle AuthNRequest, SAMLResponse, LogoutRequest, LogoutResponse and Metadata (low level API). In addition, it contains classes to load the settings of the toolkit and the HttpRequest class, a framework-agnostic representation of an HTTP request.
 
 In the repo, at *src/main/java* you will find the source; at *src/main/resources/schemas*, there are xsd schemas used to validate the SAML messages; at *src/test/java* are the tests for its classes; and at *src/test/resources* can be found different settings, SAML messages and certificates used by the junit tests.
 
 
-#### toolkit (com.onelogin:java-saml) ####
+#### toolkit (com.generiscorp:java-saml) ####
 This folder contains a maven project with the Auth class to handle the low level classes of java-saml-core and the ServletUtils class to handle javax.servlet.http objects, used on the Auth class.
 In the repo, at *src/main/java* you will find the source and at *src/test/java* the junit tests for the classes Auth and ServletUtils.
-
-#### samples (com.onelogin:java-saml-tookit-samples) ####
-This folder contains a maven project with a jsp app used to learn how the java-saml toolkit works.
-
-Within the *java-saml-tookit-jspsample/src/main/webapp* folder are several jsp files, each one representing a different endpoint:
-- *index.jsp* Index of the webapp.
-- *dologin.jsp* SP-initiated SSO endpoint.
-- *dologout.jsp* SP-initiated SLO endpoint.
-- *acs.jsp* Service Provider Assertion Consumer Service endpoint.
-- *attrs.jsp* Shows attributes collected from the SAMLResponse.
-- *sls.jsp* Service Provider Single Logout Service endpoint.
-- *metadata.jsp* Publish SP metadata.
-
-At *java-saml-tookit-jspsample/src/main/resources* folder is the *onelogin.saml.properties* file which contains the SAML settings.
 
 ### How it works
 
 #### Javadocs
 
-* [toolkit (com.onelogin:java-saml)](https://onelogin.github.io/java-saml/toolkit/index.html)
-* [core (com.onelogin:java-saml-core)](https://onelogin.github.io/java-saml/core/index.html)
+* [toolkit (com.generiscorp:java-saml)](https://onelogin.github.io/java-saml/toolkit/index.html)
+* [core (com.generiscorp:java-saml-core)](https://onelogin.github.io/java-saml/core/index.html)
 
 #### Settings
 First of all we need to configure the toolkit. The SP's info, the IdP's info, and in some cases, configuration for advanced security issues, such as signatures and encryption.
@@ -525,7 +489,7 @@ and later executing the redirection manually.
 
 
 #### The SP Endpoints
-Related to the SP there are 3 important endpoints: The metadata view, the ACS view and the SLS view. The toolkit provides at the demo of the samples folder those views.
+Related to the SP there are 3 important endpoints: The metadata view, the ACS view and the SLS view.
 
 ##### SP Metadata
 This code will provide the XML metadata file of our SP, based on the info that we provided in the settings files.
@@ -752,30 +716,3 @@ For Apache Tomcat this is done by setting the proxyName, proxyPort, scheme and s
 In order to avoid replay attacks, you can store the ID of the SAML messages already processed, to avoid processing them twice. Since the Messages expires and will be invalidated due that fact, you don't need to store those IDs longer than the time frame that you currently accepting.
 
 Get the ID of the last processed message with the getLastMessageId method of the Auth object.
-
-## Demo included in the toolkit
-The Java Toolkit allows you to provide the settings in a unique file as described at the [Settings  section](https://github.com/onelogin/java-saml/#Settings).
-
-#### SP setup
-Configure the SP part and review the metadata of the IdP and complete the IdP info. Later configure how the toolkit will work enabling/disabling the security settings.
-
-#### IdP setup
-
-Once the SP is configured, the metadata of the SP is published at the /metadata.jsp url. Based on that info, configure the IdP.
-
-#### How it works
-Lets imagine we deploy the jsp example project at *http://localhost:8080/java-saml-tookit-jspsample/*.
-
-1. First time you access to the main view *http://localhost:8080/java-saml-tookit-jspsample/index.jsp*, you can select to login and return to the same view or login and be redirected to  the attribute view (attrs).
-
-2. When you click on a link,:
-
-  2.1. In the first link, we are redirected to the */dologin.jsp* view. An AuthNRequest is sent to the IdP, we authenticate at the IdP and then a Response is sent to the SP, specifically to the Assertion Consumer Service view: /acs.jsp. There the SAMLResponse is validated, the NameID and user attributes extracted and stored in the session. Notice that a RelayState parameter is set to the url that initiated the process, the dologin.jsp url, but we are not redirecting the user to that view, and instead we present user data on the /acs.jsp view.
-
-  2.2. In the second link we are redirected to the */dologin.jsp* view with a 'attrs' GET parameter. An AuthNRequest is sent to the IdP with the /attrs.jsp view as RelayState parameter, we authenticate at the IdP and then a Response is sent to the SP, specifically to the Assertion Consumer Service view: /acs.jsp. There the SAMLResponse is validated, the NameID and user attributes extracted and stored in the session and we are redirected to the RelayState view, the attrs.jsp view where user data is read from session and prompted.
-
-3. The single log out functionality could be tested by 2 ways.
-
-  3.1. SLO Initiated by SP. Click on the "logout" link at the SP, after that we are redirected to the /dologout.jsp view where a Logout Request is sent to the IdP, the session at the IdP is closed and replies to the SP a Logout Response (sent to the Single Logout Service endpoint). The SLS endpoint /sls.jsp of the SP process the Logout Response and if is valid, close the user session of the local app. Notice that the SLO Workflow starts and ends at the SP.
-
-  3.2. SLO Initiated by IdP. In this case, the action takes place on the IdP side, the logout process is initiated at the IdP, it sends a Logout Request to the SP (SLS endpoint, /sls.jsp). The SLS endpoint of the SP process the Logout Request and if is valid, close the session of the user at the local app and send a Logout Response to the IdP (to the SLS endpoint of the IdP). The IdP receives the Logout Response, process it and close the session at the IdP. Notice that the SLO Workflow starts and ends at the IdP.
