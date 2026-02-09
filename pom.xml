@@ -239,9 +239,20 @@
 		</pluginManagement>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>generis-maven-releases</id>
+			<url>https://nexus.generis.cloud/repository/generis-maven-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>generis-maven-snapshots</id>
+			<url>https://nexus.generis.cloud/repository/generis-maven-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<scm>
-		<connection>scm:git:git@github.com:generiscorp/java-saml.git</connection>
-		<developerConnection>scm:git:git@github.com:generiscorp/java-saml.git</developerConnection>
+		<connection>scm:git:https://github.com/generiscorp/java-saml.git</connection>
+		<developerConnection>scm:git:https://github.com/generiscorp/java-saml.git</developerConnection>
 		<url>https://github.com/generiscorp/java-saml</url>
 		<tag>HEAD</tag>
 	</scm>
@@ -301,21 +312,7 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven-gpg-plugin.version}</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
+					</plugins>
 			</build>
 		</profile>
 	</profiles>
