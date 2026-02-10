@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.generiscorp</groupId>
 	<artifactId>java-saml-toolkit</artifactId>
-	<version>3.0.4-SNAPSHOT</version>
+	<version>3.0.4</version>
 	<packaging>pom</packaging>
 
 	<name>java-saml Toolkit Project</name>
@@ -254,7 +254,7 @@
 		<connection>scm:git:https://github.com/generiscorp/java-saml.git</connection>
 		<developerConnection>scm:git:https://github.com/generiscorp/java-saml.git</developerConnection>
 		<url>https://github.com/generiscorp/java-saml</url>
-		<tag>HEAD</tag>
+		<tag>v3.0.4</tag>
 	</scm>
 
 	<licenses>
